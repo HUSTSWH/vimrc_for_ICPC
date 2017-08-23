@@ -8,6 +8,7 @@ set shiftwidth=4
 set cindent
 set ruler
 set expandtab
+set backspace=indent,eol,start
 ab mp make_pair
 ab pb push_back
 ab pi pair<int, int>
