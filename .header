@@ -1,24 +1,36 @@
 #include <cstdio>
 #include <cstring>
+#include <algorithm>
+
 #include <cmath>
 #include <cassert>
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
-#include <algorithm>
 #include <functional>
+#include <limits>
 #include <vector>
 #include <list>
 #include <string>
 #include <queue>
 #include <stack>
 #include <map>
+#include <set>
 #include <complex>
-using namespace std;
 
+using namespace std;
+typedef long long LL;
+typedef unsigned long long ULL;
+#define zeros(a,n) memset(a,0,(n)*sizeof(a[0]))
+const LL modn = 1e9+7;
 
 int main()
 {
-    ios::sync_with:stdio(false); cin.tie(0);
+    // ios::sync_with:stdio(false); cin.tie(0);
+    int T;
+    scanf("%d", &T);
+    for(int cas=1; cas<=T; cas++) {
+
+    }
     return 0;
 }
