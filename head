@@ -1,0 +1,19 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef unsigned long long ULL;
+#define zeros(a,n) memset(a,0,(n)*sizeof(a[0]))
+const int modn = 1e9+7;
+int mod(int x) { return x<0?x+modn:x<modn?x:x-modn; }
+
+int main()
+{
+    // ios::sync_with:stdio(false); cin.tie(0);
+    int T;
+    scanf("%d", &T);
+    for(int cas=1; cas<=T; cas++) {
+
+    }
+    return 0;
+}
+
