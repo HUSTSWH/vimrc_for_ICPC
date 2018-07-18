@@ -7,7 +7,7 @@ ab mp make_pair
 ab pub push_back
 ab pi pair<int, int>
 au BufNewFile *.cpp 0r ~/head
-set makeprg=g++\ %\ -Wall\ -std=c++14\ -o%<\ -DSONG
+set makeprg=g++\ %\ -Wall\ -std=c++14\ -o%<\ -DLOCAL
 
 map <F5> :sil call Test()<CR>
 map <F9> :sil call Cmp()<CR>
@@ -51,6 +51,6 @@ endfunc
 func Test()
     set makeprg=g++\ %\ -Wall\ -std=c++14\ -o%<\ -O2
     call Cmp()
-    set makeprg=g++\ %\ -Wall\ -std=c++14\ -o%<\ -DSONG
+    set makeprg=g++\ %\ -Wall\ -std=c++14\ -o%<\ -DLOCAL
 endfunc
 
