@@ -28,7 +28,9 @@ ino <F10> <Esc><F10>
 
 func Set()
     if winnr('$')>1
-        2winc w
+        " 2winc w
+        winc l
+        winc k
         w
         winc t
         only
