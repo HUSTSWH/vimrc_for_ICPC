@@ -1,0 +1,57 @@
+set mouse=a
+colo slate
+set nu ru hls
+set cin et ts=4 sw=4
+
+ab mp make_pair
+ab pub push_back
+ab pi pair<int, int>
+au BufNewFile *.cpp 0r ~/head.cpp
+set makeprg=g++\ %\ -o%<\ -Wall\ -std=c++14\ -DLOCAL\ -g
+
+nn <F5> :silent call Test()<CR>
+nn <F9> :silent call Cmp()<CR>
+nn <F10> :silent call Run()<CR>
+ino <F5> <Esc>:silent call Test()<CR>
+ino <F9> <Esc>:silent call Cmp()<CR>
+ino <F10> <Esc>:silent call Run()<CR>
+
+func Set()
+    if winnr('$')>1
+        winc l
+        winc k
+        w
+        winc t
+        only
+    endif
+    w
+endfunc
+
+func Run()
+    call Set()
+    !(time ./%< <%<.in >%<.out)2>>%<.out
+    bel vs %<.in
+    bel sv %<.out
+    winc t
+    redr!
+endfunc
+
+func Cmp()
+    call Set()
+    let v:statusmsg=''
+    make
+    if empty(v:statusmsg)
+        call Run()
+    else
+        cw
+        winc t
+        redr!
+    endif
+endfunc
+
+func Test()
+    set makeprg=g++\ %\ -o%<\ -Wall\ -std=c++14\ -O2
+    call Cmp()
+    set makeprg=g++\ %\ -o%<\ -Wall\ -std=c++14\ -DLOCAL\ -g
+endfunc
+
