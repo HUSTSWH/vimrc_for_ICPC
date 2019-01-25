@@ -1,7 +1,7 @@
 # Vim配置：用VimScript实现一键编译运行及样例测试 #
 
 ## 前言 ##
-发现我的编译方式不合适，是在陕西邀请赛的现场上。彼时的我启用Vim写ICPC相关代码已经接近一年，对Vim主要快捷键已经趋于熟悉。Vim强大的功能使得我在代码编写和修改的时候得心应手，然而在编辑以外的部分，情况却不是那么的美好。Vim是一个编辑器，为了编译其中代码，我每次都需要在Vim中键入
+发现我的编译方式不合适，是在陕西邀请赛(2017)的现场上。彼时的我启用Vim写ICPC相关代码已经接近一年，对Vim主要快捷键已经趋于熟悉。Vim强大的功能使得我在代码编写和修改的时候得心应手，然而在编辑以外的部分，情况却不是那么的美好。Vim是一个编辑器，为了编译其中代码，我每次都需要在Vim中键入
 
     :!g++ % -Wall
     :!./a.out
@@ -29,26 +29,27 @@
 
 首先我们抛弃愚蠢的`:!g++ % -Wall`，改用如下配置完成编译工作：
 
-    :set makeprg=g++\ %\ -Wall\ -g\ -o\ %<\ -DSONG
+    :set makeprg=g++\ %\ -o%<\ -Wall\ -std=c++14\ -DLOCAL\ -g
 
-通过这行配置，我们能直接通过`:make`而不是`:!g++ % -Wall -g -o %< -DSONG`来完成单文件的编译了（代码中的%是寄存器，表示文件名）。这样做的好处是通过Vim的make组件，我们能使用quickfix对照编译器的报错与源代码进行Debug工作。（默认情况下make指向shell中的make命令，即!make，但我们将其设置成了单文件的编译命令）
+通过这行配置，我们能直接通过`:make`而不是`:!g++ % -o%< -Wall -g -DLOCAL`来完成单文件的编译了（代码中的%是vim中的寄存器，表示文件名）。这样做的好处是通过Vim的make组件，我们能使用quickfix对照编译器的报错与源代码进行Debug工作。（默认情况下make指向shell中的make命令，即!make，但我们将其设置成了单文件的编译命令）
 
 之后，通过VimScript的函数，我们使用上述的命令，完成从保存文件、编译源代码、到运行程序测试样例、显示样例的一系列功能。
 自动编译运行的函数列表如下：
 
     Run()
-    CompileRun()
+    Cmp()
+    Test()
 
 使用时只需输入
 
-    :call CompileRun()
+    :call Cmp()
 
 就可以完成编译运行了，当然我们可以更进一步，把这个命令映射到一个键位上，例如，我想每次按下F9就能调用这个函数，在vimrc中加入如下键位映射：
 
-    map <F9> :call CompileRun()<CR>  "句末的<CR>表示Enter键
-    imap <F9> <Esc>:call CompileRun()<CR> "插入模式中的键位映射
+    nnoremap <F9> :call CompileRun()<CR>  "句末的<CR>表示Enter键
+    inoremap <F9> <Esc>:call CompileRun()<CR> "插入模式中的键位映射
 
-值得注意一点，CompileRun()中有个小技巧，那就是通过
+值得注意一点，Cmp()中有个小技巧，那就是通过
 
     let v:statusmsg = ''
     silent make
@@ -59,20 +60,20 @@
 
 最后，来看看编译参数。编译命令相当于：
 
-    g++ test.cpp -g -o test -Wall -DSONG  "test为当前文件名
+    g++ % -o{filename} -Wall -std=c++14 -DLOCAL -g  "filename为当前文件名
 
--Wall使所有warning输出， -g保证编译器不对代码做任何优化，只有这样才能调用gdb进行调试， -DSONG给print调试提供了一个方式，可以在C\C++代码中键入
+-Wall使所有warning输出， -g保证编译器不对代码做任何优化，只有这样才能调用gdb进行调试， -DLOCAL给print调试提供了一个方式，可以在C\C++代码中键入
 
-    #ifdef SONG
+    #ifdef LOCAL
     //print somethint
     #endif
 
 进行调试，这样既能在本机上看到调试信息，又能交题后不产生额外输出。END
 
 ## 参考文档： ##
-1. [VimScript编译运行命令相关](http://blog.chinaunix.net/uid-21202106-id-2406761.html)
-2. [详细版单文件编译运行命令配置（推荐）](https://www.oschina.net/code/snippet_574132_13351)
-3. [Vim中quickfix使用](http://easwy.com/blog/archives/advanced-vim-skills-quickfix-mode/)
+1. [](http://blog.chinaunix.net/uid-21202106-id-2406761.html)
+2. [](https://www.oschina.net/code/snippet_574132_13351)
+3. [](http://easwy.com/blog/archives/advanced-vim-skills-quickfix-mode/)
 
 第二个是最重要的，对我的这个配置帮助很大。
 
